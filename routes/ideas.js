@@ -65,23 +65,34 @@ router.get('/:id', async (req, res) => {
 // update idea
 router.put('/:id', async (req, res) => {
   try {
-    const updatedIdea = await Idea.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: {
-          text: req.body.text,
-          tag: req.body.tag,
-        },
-      },
-      {
-        new: true, // if idea with the given id does not exist then it will be created
-      }
-    );
+    const idea = await Idea.findById(req.params.id);
 
-    res.json({
-      success: true,
-      data: updatedIdea,
-    });
+    // match the passed in user name with the idea from db
+    if (idea.username === req.body.username) {
+      const updatedIdea = await Idea.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: {
+            text: req.body.text,
+            tag: req.body.tag,
+          },
+        },
+        {
+          new: true, // if idea with the given id does not exist then it will be created
+        }
+      );
+
+      return res.json({
+        success: true,
+        data: updatedIdea,
+      });
+    } else {
+      // user names do not match
+      return res.status(403).json({
+        success: false,
+        error: 'You are not authorised to update this resource.',
+      });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -94,10 +105,21 @@ router.put('/:id', async (req, res) => {
 // delete idea
 router.delete('/:id', async (req, res) => {
   try {
-    await Idea.findByIdAndDelete(req.params.id);
-    res.json({
-      success: true,
-      data: {},
+    const idea = await Idea.findById(req.params.id);
+
+    // match the passed in user name with the idea from db
+    if (idea.username === req.body.username) {
+      await Idea.findByIdAndDelete(req.params.id);
+      return res.json({
+        success: true,
+        data: {},
+      });
+    }
+
+    // user names do not match
+    return res.status(403).json({
+      success: false,
+      error: 'You are not authorised to delete this resource.',
     });
   } catch (error) {
     console.log(error);
