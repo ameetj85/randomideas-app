@@ -8,6 +8,10 @@ class Modal {
   addEventListeners() {
     this._modalBtn.addEventListener('click', this.open.bind(this)); // open modal to enter new idea
     window.addEventListener('click', this.outsideClick.bind(this)); // check if we clicked outside the modal window and call close
+
+    // We send a 'closemodal' event from IdeaForm. It is picked up by the Modal form here
+    // which then closes the modal.
+    document.addEventListener('closemodal', () => this.close());
   }
 
   open() {
