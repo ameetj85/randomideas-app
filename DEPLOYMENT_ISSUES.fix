@@ -1,0 +1,11 @@
+FIXED DEPLOYMENT ISSUES in Render (render.com - registered with my github creds):
+Followed Will Adams' suggestion below -
+Render --> Settings --> Build Command: npm run build
+In root of source code -- > package.json --> under scripts added --> "build": "npm i && cd client && npm i && npm run build"
+
+Got this last tidbit from https://community.render.com/t/cli-for-webpack-must-be-installed/9933
+Removed NODE_ENV from Render Environment
+
+Re-ran deployment and everything worked!!
+
+Thank you Will and "pato" from the website that I linked to above.
