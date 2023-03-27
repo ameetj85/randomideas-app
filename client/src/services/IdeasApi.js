@@ -13,6 +13,21 @@ class IdeasApi {
   createIdea(data) {
     return axios.post(this._url, data);
   }
+
+  updateIdea(id, data) {
+    return axios.put(`${this._url}/${id}`, data);
+  }
+
+  deleteIdea(id) {
+    const userName = localStorage.getItem('username')
+      ? localStorage.getItem('username')
+      : '';
+    return axios.delete(`${this._url}/${id}`, {
+      data: {
+        username: userName,
+      },
+    });
+  }
 }
 
 export default new IdeasApi();
