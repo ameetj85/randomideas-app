@@ -1,3 +1,5 @@
+
+
 FIXED DEPLOYMENT ISSUES in Render (render.com - registered with my github creds):
 Followed Will Adams' suggestion below -
 Render --> Settings --> Build Command: npm run build
@@ -5,6 +7,10 @@ In root of source code -- > package.json --> under scripts added --> "build": "n
 
 Got this last tidbit from https://community.render.com/t/cli-for-webpack-must-be-installed/9933
 Removed NODE_ENV from Render Environment
+
+Explanation for above NODE_ENV removal:
+Solved: Render wasn’t installing Webpack because I had an environment variable NODE_ENV set to “production”, 
+therefore no devDependencies were being installed.
 
 Re-ran deployment and everything worked!!
 
